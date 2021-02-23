@@ -10,6 +10,7 @@ interface ContainerProps {
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   const { loginWithRedirect } = useAuth0();
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const { logout } = useAuth0();
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -17,7 +18,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
 
   if(isAuthenticated){
     return (
-      <div className="container">
+      <div>
       <IonGrid>
           <IonRow>
             <IonCol size="3">
@@ -34,6 +35,11 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
             <p> {user.email} </p>
             </IonLabel>
             </IonCol>
+            <IonCol>
+              <IonButton onClick={() => logout({ returnTo: window.location.origin })}>
+                Log Out
+              </IonButton>
+              </IonCol>
           </IonRow>
         </IonGrid>
 
@@ -42,9 +48,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   }else{
     return (
         <div className="container">
-          <strong>{name}</strong>
              <IonButton onClick={() => loginWithRedirect()}>Log In</IonButton>
-          <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
         </div>
     );
   }
